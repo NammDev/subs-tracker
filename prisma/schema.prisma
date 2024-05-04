@@ -12,3 +12,35 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  userId        String         @id @default(uuid())
+  email         String         @unique
+  fullName      String
+  avatarUrl     String
+  updatedAt     DateTime       @default(now())
+  createdAt     DateTime       @default(now())
+  filterBy      String         @default("monthly")
+  planStatus    String         @default("free")
+  currencyCode  String         @default("INR")
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id             String    @id @default(uuid())
+  userId         String
+  name           String
+  cost           String
+  billingDate    DateTime
+  billingEndDate DateTime?
+  url            String?
+  paymentCycle   String
+  active         Boolean   @default(true)
+  renewalDate    DateTime
+  color          String?
+  notes          String?
+  notify         Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now())
+  user           User      @relation(fields: [userId], references: [userId])
+}
