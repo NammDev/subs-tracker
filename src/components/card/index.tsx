@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useState } from 'react'
 
 // import NavFilter from 'components/nav-filter'
-// import Summary from 'components/summary'
+import Summary from '@/components/summary'
 // import { SearchInput } from 'components/ui/search-input'
+// import CardInfo from './info'
 import { navFilter, summaryFilter } from '@/config/data'
 import { activeFilter, filterDataByNav, filterDataBySearch, inActiveFilter } from '@/lib/data'
-// import CardInfo from './info'
 import CardSkeleton from './skeleton'
 import { Subscription, User } from '@prisma/client'
 
@@ -58,7 +58,7 @@ export default function Card(props: CardProps) {
 
   return (
     <>
-      {/* <Summary user={user} subscriptions={activeData} /> */}
+      <Summary user={user} subscriptions={activeData} />
       <div className='flex flex-col my-8 mb-12'>
         {/* <SearchInput
           type='text'
