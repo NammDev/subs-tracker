@@ -4,20 +4,21 @@ import { useState } from 'react'
 
 import Image from 'next/image'
 
-import { createSubscription } from 'app/actions/subscriptions'
-import { AddIcon } from 'components/icons'
-import Loader from 'components/loader'
-import { Button } from 'components/ui/button'
-import { Drawer, DrawerContent } from 'components/ui/drawer'
-import { Input } from 'components/ui/input'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'components/ui/tooltip'
-import { paymentCycle } from 'config/data'
-import { calculatePrevRenewalDate, calculateRenewalDate } from 'lib/data'
-import { getCurrencySymbol } from 'lib/numbers'
-import { contrastColor, getFirstLetters, isValidUrl, randomColor } from 'lib/utils'
+// import { createSubscription } from 'app/actions/subscriptions'
+import { AddIcon } from '@/components/icons'
+import Loader from '@/components/loader'
+import { Button } from '@/components/ui/button'
+import { Drawer, DrawerContent } from '@/components/ui/drawer'
+import { Input } from '@/components/ui/input'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { paymentCycleConfig } from '@/config/data'
+import { calculateRenewalDate } from '@/lib/data'
+import { getCurrencySymbol } from '@/lib/numbers'
+import { contrastColor, getFirstLetters, isValidUrl, randomColor } from '@/lib/utils'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { toast } from 'sonner'
-import { SubscriptionsInsert, User } from 'types/data'
+import { User } from '@prisma/client'
+import { SubscriptionsInsertSchemaType } from '@/lib/schemas/insert'
 
 type AddProps = { user: User | null; showSignup: (show: boolean) => void }
 
@@ -39,7 +40,7 @@ export default function Add({ user, showSignup }: AddProps) {
     }
   }
 
-  const onSubmit = async (subscription: SubscriptionsInsert) => {
+  const onSubmit = async (subscription: SubscriptionsInsertSchemaType) => {
     try {
       setLoading(true)
       const renewal_date = calculateRenewalDate(
@@ -47,7 +48,7 @@ export default function Add({ user, showSignup }: AddProps) {
         subscription.payment_cycle
       )
       const updatedSubscription = { ...subscription, renewal_date }
-      await createSubscription(updatedSubscription)
+      // await createSubscription(updatedSubscription)
       toast.success('Subscription is added successfully')
       setOpen(false)
     } catch (error) {
@@ -91,19 +92,19 @@ export default function Add({ user, showSignup }: AddProps) {
 type FormProps = {
   user: User | null
   loading: boolean
-  onSubmit: (subscription: SubscriptionsInsert) => void
+  onSubmit: (subscription: SubscriptionsInsertSchemaType) => void
 }
 
 export function Form({ user, loading, onSubmit }: FormProps) {
   const randomHexColor = randomColor()
-  const [state, setState] = useState<SubscriptionsInsert>({
+  const [state, setState] = useState<SubscriptionsInsertSchemaType>({
     user_id: '',
     name: '',
     url: '',
     color: randomHexColor,
     cost: '',
     billing_date: new Date().toISOString().split('T')[0],
-    payment_cycle: paymentCycle.monthly.key,
+    payment_cycle: paymentCycleConfig.monthly.key,
     notes: '',
   })
 
@@ -185,7 +186,7 @@ export function Form({ user, loading, onSubmit }: FormProps) {
         <div className='mr-3'>
           <label className='text-sm inline-flex items-center font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
             Cost <span className='relative ml-1 mr-1 -top-0.5 text-xs text-red-500'>*</span>{' '}
-            {getCurrencySymbol(user?.currency_code)}
+            {getCurrencySymbol(user?.currencyCode ?? 'USD')}
           </label>
           <Input
             value={state.cost}
@@ -227,13 +228,13 @@ export function Form({ user, loading, onSubmit }: FormProps) {
             Cycle
           </label>
           <select
-            value={state.payment_cycle ?? paymentCycle.monthly.key}
+            value={state.payment_cycle ?? paymentCycleConfig.monthly.key}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               setState({ ...state, payment_cycle: e.target.value })
             }}
             className='rounded-md capitalize custom-select border border-input bg-background px-2 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 mt-2 h-11 flex w-full'
           >
-            {Object.values(paymentCycle).map(({ key }) => (
+            {Object.values(paymentCycleConfig).map(({ key }) => (
               <option key={key} value={key}>
                 {key}
               </option>

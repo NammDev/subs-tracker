@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { HomeIcon, SettingsIcon } from './icons'
-// import Add from './modal/add'
-// import SignupModal from './modal/signup'
 import NavLink from './nav-link'
 import { User } from '@prisma/client'
+import SignupModal from './modal/signup'
+import Add from './modal/add'
 
 export default function BottomBar({ user }: { user: User | null }) {
   const [open, setOpen] = useState(false)
@@ -33,10 +33,10 @@ export default function BottomBar({ user }: { user: User | null }) {
           <div className='h-6 border-r'></div>
         </div>
         <div className='flex items-center w-fit'>
-          {/* <Add showSignup={setOpen} user={user} /> */}
+          <Add showSignup={setOpen} user={user} />
         </div>
       </div>
-      {/* {open ? <SignupModal user={user} open={open} onHide={setOpen} /> : null} */}
+      {open ? <SignupModal user={user} open={open} onHide={setOpen} /> : null}
     </>
   )
 }
