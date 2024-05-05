@@ -1,10 +1,10 @@
 'use server'
 
 import { db } from '../db'
-import { getCachedUser } from './users'
+import { getCachedAuthUser } from './users'
 
 export const getSubscriptions = async () => {
-  const user = await getCachedUser()
+  const user = await getCachedAuthUser()
   if (!user) {
     return []
   }
