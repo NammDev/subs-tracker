@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
-// import BottomBar from 'components/bottom-bar'
+import BottomBar from '@/components/bottom-bar'
 import NextTopLoader from 'nextjs-toploader'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '@/components/layouts/theme-providers'
@@ -90,7 +90,7 @@ export default async function RootLayout({
               <Header user={userData} />
               {children}
             </div>
-            {/* <BottomBar user={userData} /> */}
+            <BottomBar user={userData} />
             <Toaster />
           </ThemeProvider>
 
