@@ -1,14 +1,14 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
-
 // import BottomBar from 'components/bottom-bar'
 // import Header from 'components/header'
 import NextTopLoader from 'nextjs-toploader'
-
-import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '@/components/layouts/theme-providers'
+import { ClerkProvider } from '@clerk/nextjs'
+
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -73,25 +73,26 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
-      <body className={`antialiased h-full ${inter.className}`}>
-        <NextTopLoader height={2} shadow={false} color='#db2777' showSpinner={false} />
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className='px-4 py-2 flex flex-col w-full md:max-w-lg m-auto'>
-            {/* <Header user={userData} /> */}
-            {children}
-          </div>
-          {/* <BottomBar user={userData} /> */}
-          <Toaster />
-        </ThemeProvider>
+    <ClerkProvider>
+      <html lang='en' suppressHydrationWarning>
+        <body className={`antialiased h-full ${inter.className}`}>
+          <NextTopLoader height={2} shadow={false} color='#db2777' showSpinner={false} />
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className='px-4 py-2 flex flex-col w-full md:max-w-lg m-auto'>
+              {/* <Header user={userData} /> */}
+              {children}
+            </div>
+            {/* <BottomBar user={userData} /> */}
+            <Toaster />
+          </ThemeProvider>
 
-        {/* <!-- Google tag (gtag.js) --> */}
-        {/* <Script
+          {/* <!-- Google tag (gtag.js) --> */}
+          {/* <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
           strategy='afterInteractive'
         />
@@ -102,7 +103,8 @@ export default async function RootLayout({
 
           gtag('config', '${GOOGLE_ANALYTICS_ID}');`}
         </Script> */}
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
