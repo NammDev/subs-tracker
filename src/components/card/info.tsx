@@ -1,21 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-
 import Image from 'next/image'
 import Link from 'next/link'
-
-import { CalendarEndIcon, CalendarIcon } from 'components/icons'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'components/ui/tooltip'
-import { navFilter, summaryFilter } from 'config/data'
-import { format } from 'date-fns'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { motion } from 'framer-motion'
-import { formatDate, isWithInSevenDays } from 'lib/date'
-import { getCurrencySymbol } from 'lib/numbers'
-import { cn, contrastColor, getFirstLetters } from 'lib/utils'
-import { Subscriptions, User } from 'types/data'
+import { formatDate, isWithInSevenDays } from '@/lib/date'
+import { getCurrencySymbol } from '@/lib/numbers'
+import { cn, contrastColor, getFirstLetters } from '@/lib/utils'
 
-import CardDetails from './details'
+// import CardDetails from './details'
+import { Subscription, User } from '@prisma/client'
 
 export const itemVariants = {
   hidden: { y: 20, opacity: 0 },
@@ -27,7 +22,7 @@ export const itemVariants = {
 }
 
 type InfoProps = {
-  subscription: Subscriptions
+  subscription: Subscription
   user: User | null
 }
 
@@ -38,7 +33,7 @@ export default function CardInfo(props: InfoProps) {
   const { subscription, user } = props
   const [open, setOpen] = useState(false)
 
-  const isDue = isWithInSevenDays(subscription.renewal_date ?? '')
+  const isDue = isWithInSevenDays(subscription.renewalDate?.toString() ?? '')
 
   return (
     <>
@@ -116,22 +111,22 @@ export default function CardInfo(props: InfoProps) {
             {subscription.active ? (
               <span
                 title={`${isDue ? 'Due on ' : "Renew's at "}${formatDate(
-                  subscription?.renewal_date ?? ''
+                  subscription?.renewalDate?.toString() ?? ''
                 )}`}
                 className={cn(`text-[13px] inline-flex items-center mt-0.5 text-muted-foreground`, {
                   'text-red-500': isDue,
                 })}
               >
-                {formatDate(subscription?.renewal_date ?? '')}
+                {formatDate(subscription?.renewalDate?.toString() ?? '')}
               </span>
             ) : (
               <span
-                title={formatDate(subscription.billing_end_date ?? '')}
+                title={formatDate(subscription.billingEndDate?.toString() ?? '')}
                 className={cn(
                   `text-[13px] inline-flex items-center mt-0.5 text-muted-foreground h-5`
                 )}
               >
-                Ended {formatDate(subscription.billing_end_date ?? '')}
+                Ended {formatDate(subscription.billingEndDate?.toString() ?? '')}
               </span>
             )}
           </div>
@@ -140,16 +135,16 @@ export default function CardInfo(props: InfoProps) {
         <div className='flex flex-col items-end w-fit'>
           <p className='w-fit flex flex-col items-end'>
             <span className='text-sm text-muted-foreground'>
-              {subscription.active ? subscription.payment_cycle : 'not active'}
+              {subscription.active ? subscription.paymentCycle : 'not active'}
             </span>
             <span className='inline-flex mt-0.5 items-center'>
-              <span className='mr-0.5 font-sans'>{getCurrencySymbol(user?.currency_code)}</span>
+              <span className='mr-0.5 font-sans'>{getCurrencySymbol(user?.currencyCode)}</span>
               <span className='font-semibold'>{parseFloat(subscription.cost)}</span>
             </span>
           </p>
         </div>
       </motion.button>
-      {open ? <CardDetails open={open} setOpen={setOpen} subscription={subscription} /> : null}
+      {/* {open ? <CardDetails open={open} setOpen={setOpen} subscription={subscription} /> : null} */}
     </>
   )
 }

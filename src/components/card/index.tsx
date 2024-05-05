@@ -4,12 +4,12 @@ import { useCallback, useEffect, useState } from 'react'
 
 import NavFilter from '@/components/nav-filter'
 import Summary from '@/components/summary'
-// import CardInfo from './info'
 import { navFilter, summaryFilter } from '@/config/data'
 import { activeFilter, filterDataByNav, filterDataBySearch, inActiveFilter } from '@/lib/data'
 import CardSkeleton from './skeleton'
 import { Subscription, User } from '@prisma/client'
 import { SearchInput } from '../ui/search-input'
+import CardInfo from './info'
 
 type CardProps = { subscriptions: Subscription[]; user: User | null }
 
@@ -83,7 +83,7 @@ export default function Card(props: CardProps) {
             </>
           ) : (
             <>
-              {/* {data.length ? (
+              {data.length ? (
                 <>
                   {activeData.map((subscription) => (
                     <CardInfo user={user} key={subscription.id} subscription={subscription} />
@@ -98,11 +98,7 @@ export default function Card(props: CardProps) {
                   No {selected !== navFilter.all.key ? selected : ''} subscriptions
                   {search.length ? ' found.' : '.'}
                 </p>
-              )} */}
-              <p className='text-center mt-10 text-muted-foreground'>
-                No {selected !== navFilter.all.key ? selected : ''} subscriptions
-                {search.length ? ' found.' : '.'}
-              </p>
+              )}
             </>
           )}
         </div>
