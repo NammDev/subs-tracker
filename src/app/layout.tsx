@@ -2,13 +2,14 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 // import BottomBar from 'components/bottom-bar'
-// import Header from 'components/header'
 import NextTopLoader from 'nextjs-toploader'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '@/components/layouts/theme-providers'
 import { ClerkProvider } from '@clerk/nextjs'
 
 import './globals.css'
+import { getCachedUser } from '@/lib/actions/users'
+import Header from '@/components/header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -72,6 +73,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const userData = await getCachedUser()
+
   return (
     <ClerkProvider>
       <html lang='en' suppressHydrationWarning>
@@ -84,7 +87,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <div className='px-4 py-2 flex flex-col w-full md:max-w-lg m-auto'>
-              {/* <Header user={userData} /> */}
+              <Header user={userData} />
               {children}
             </div>
             {/* <BottomBar user={userData} /> */}
