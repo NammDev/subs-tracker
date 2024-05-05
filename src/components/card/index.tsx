@@ -2,14 +2,14 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-// import NavFilter from 'components/nav-filter'
+import NavFilter from '@/components/nav-filter'
 import Summary from '@/components/summary'
-// import { SearchInput } from 'components/ui/search-input'
 // import CardInfo from './info'
 import { navFilter, summaryFilter } from '@/config/data'
 import { activeFilter, filterDataByNav, filterDataBySearch, inActiveFilter } from '@/lib/data'
 import CardSkeleton from './skeleton'
 import { Subscription, User } from '@prisma/client'
+import { SearchInput } from '../ui/search-input'
 
 type CardProps = { subscriptions: Subscription[]; user: User | null }
 
@@ -60,7 +60,7 @@ export default function Card(props: CardProps) {
     <>
       <Summary user={user} subscriptions={activeData} />
       <div className='flex flex-col my-8 mb-12'>
-        {/* <SearchInput
+        <SearchInput
           type='text'
           value={search}
           placeholder='Search here'
@@ -72,7 +72,7 @@ export default function Card(props: CardProps) {
           count={count}
           selected={selected}
           onChange={onNavChangeHandler}
-        /> */}
+        />
         <div className='flex mt-6 mb-10 flex-col gap-3'>
           {loading ? (
             <>
