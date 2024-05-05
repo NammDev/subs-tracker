@@ -18,7 +18,7 @@ import { contrastColor, getFirstLetters, isValidUrl, randomColor } from '@/lib/u
 import { useHotkeys } from 'react-hotkeys-hook'
 import { toast } from 'sonner'
 import { User } from '@prisma/client'
-import { SubscriptionsInsertSchemaType } from '@/lib/schemas/insert'
+import { SubscriptionsInsertSchemaType } from '@/lib/schemas/subscription'
 
 type AddProps = { user: User | null; showSignup: (show: boolean) => void }
 

@@ -9,7 +9,7 @@ import { formatDate, isWithInSevenDays } from '@/lib/date'
 import { getCurrencySymbol } from '@/lib/numbers'
 import { cn, contrastColor, getFirstLetters } from '@/lib/utils'
 
-// import CardDetails from './details'
+import CardDetails from './details'
 import { Subscription, User } from '@prisma/client'
 
 export const itemVariants = {
@@ -144,7 +144,7 @@ export default function CardInfo(props: InfoProps) {
           </p>
         </div>
       </motion.button>
-      {/* {open ? <CardDetails open={open} setOpen={setOpen} subscription={subscription} /> : null} */}
+      {open ? <CardDetails open={open} setOpen={setOpen} subscription={subscription} /> : null}
     </>
   )
 }
