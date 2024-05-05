@@ -1,13 +1,10 @@
 import Link from 'next/link'
-
-import { ThemeToggle } from '@/components/theme-toggle'
 import { cn } from '@/lib/utils'
-
 import { Icon } from './icons'
-// import FeedbackModal from './modal/feedback'
 import Profile from './profile'
 import SignupButton from './signup-button'
 import { User } from '@prisma/client'
+import FeedbackModal from './modal/feedback'
 
 export default async function Header({ user }: { user: User | null }) {
   return (
@@ -21,7 +18,7 @@ export default async function Header({ user }: { user: User | null }) {
         </h1>
       </Link>
       <div className='flex items-center gap-4'>
-        {/* <FeedbackModal user={user} /> */}
+        <FeedbackModal user={user} />
         <Profile user={user} />
         <SignupButton user={user} />
       </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-// import SignupModal from './modal/signup'
+import SignupModal from './modal/signup'
 import { Button } from './ui/button'
 import { User } from '@prisma/client'
 
@@ -28,7 +28,7 @@ export default function SignupButton({ user }: { user: User | null }) {
           Sign in
         </Button>
       ) : null}
-      {/* {open && !user?.email ? <SignupModal user={user} open={open} onHide={setOpen} /> : null} */}
+      {open && !user?.email ? <SignupModal user={user} open={open} onHide={setOpen} /> : null}
     </>
   )
 }

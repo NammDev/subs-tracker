@@ -30,8 +30,8 @@ export default function Profile({ user }: { user: User | null }) {
           <Image
             priority
             className='h-9 w-9 rounded-full border border-input'
-            src={user?.avatar_url ?? `/images/avatar.svg`}
-            alt={user?.full_name ?? 'Demo account'}
+            src={user?.avatarUrl ?? `/images/avatar.svg`}
+            alt={user?.fullName ?? 'Demo account'}
             width={36}
             height={36}
             style={{ maxWidth: '100%', objectFit: 'cover' }}
