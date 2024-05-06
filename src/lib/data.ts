@@ -67,7 +67,7 @@ export const calculateRenewalDate = (start_date: string, paymentCycle: string): 
       throw new Error('Unsupported payment cycle')
   }
 
-  return format(renewalDate, 'yyyy-MM-dd')
+  return format(renewalDate, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
 }
 
 export const calculatePrevRenewalDate = (

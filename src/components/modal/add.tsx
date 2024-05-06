@@ -1,10 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-
 import Image from 'next/image'
-
-// import { createSubscription } from 'app/actions/subscriptions'
 import { AddIcon } from '@/components/icons'
 import Loader from '@/components/loader'
 import { Button } from '@/components/ui/button'
@@ -19,6 +16,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { toast } from 'sonner'
 import { User } from '@prisma/client'
 import { SubscriptionsInsertSchemaType } from '@/lib/schemas/subscription'
+import { createSubscription } from '@/lib/actions/subscriptions'
 
 type AddProps = { user: User | null; showSignup: (show: boolean) => void }
 
@@ -43,12 +41,9 @@ export default function Add({ user, showSignup }: AddProps) {
   const onSubmit = async (subscription: SubscriptionsInsertSchemaType) => {
     try {
       setLoading(true)
-      const renewal_date = calculateRenewalDate(
-        subscription.billing_date,
-        subscription.payment_cycle
-      )
-      const updatedSubscription = { ...subscription, renewal_date }
-      // await createSubscription(updatedSubscription)
+      const renewalDate = calculateRenewalDate(subscription.billingDate, subscription.paymentCycle)
+      const updatedSubscription = { ...subscription, renewalDate, userId: user?.userId as string }
+      await createSubscription(updatedSubscription)
       toast.success('Subscription is added successfully')
       setOpen(false)
     } catch (error) {
@@ -98,17 +93,16 @@ type FormProps = {
 export function Form({ user, loading, onSubmit }: FormProps) {
   const randomHexColor = randomColor()
   const [state, setState] = useState<SubscriptionsInsertSchemaType>({
-    user_id: '',
     name: '',
     url: '',
     color: randomHexColor,
     cost: '',
-    billing_date: new Date().toISOString().split('T')[0],
-    payment_cycle: paymentCycleConfig.monthly.key,
+    billingDate: new Date().toISOString().split('T')[0],
+    paymentCycle: paymentCycleConfig.monthly.key,
     notes: '',
   })
 
-  const isDisabled = !state.name.length || !state.cost.length || !state.billing_date.length
+  const isDisabled = !state.name.length || !state.cost.length || !state.billingDate.length
 
   return (
     <form
@@ -211,7 +205,7 @@ export function Form({ user, loading, onSubmit }: FormProps) {
             <span className='relative ml-1 -top-0.5 text-xs text-red-500'>*</span>
           </label>
           <Input
-            value={state.billing_date}
+            value={state.billingDate}
             required
             max={new Date().toISOString().split('T')[0]}
             pattern={'d{2}-d{2}-d{4}'}
@@ -219,7 +213,7 @@ export function Form({ user, loading, onSubmit }: FormProps) {
             placeholder='DD-MM-YYYY'
             className='mt-2 h-11 flex w-full appearance-none'
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setState({ ...state, billing_date: e.target.value })
+              setState({ ...state, billingDate: e.target.value })
             }
           />
         </div>
@@ -228,9 +222,9 @@ export function Form({ user, loading, onSubmit }: FormProps) {
             Cycle
           </label>
           <select
-            value={state.payment_cycle ?? paymentCycleConfig.monthly.key}
+            value={state.paymentCycle ?? paymentCycleConfig.monthly.key}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              setState({ ...state, payment_cycle: e.target.value })
+              setState({ ...state, paymentCycle: e.target.value })
             }}
             className='rounded-md capitalize custom-select border border-input bg-background px-2 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 mt-2 h-11 flex w-full'
           >

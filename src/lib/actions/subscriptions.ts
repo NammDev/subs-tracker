@@ -1,6 +1,7 @@
 'use server'
 
 import { db } from '../db'
+import { SubscriptionsCreateSchemaType } from '../schemas/subscription'
 import { getCachedAuthUser } from './users'
 
 export const getSubscriptions = async () => {
@@ -15,6 +16,14 @@ export const getSubscriptions = async () => {
     },
     orderBy: {
       renewalDate: 'asc',
+    },
+  })
+}
+
+export const createSubscription = async (subscription: SubscriptionsCreateSchemaType) => {
+  return await db.subscription.create({
+    data: {
+      ...subscription,
     },
   })
 }

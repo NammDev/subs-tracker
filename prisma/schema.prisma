@@ -20,11 +20,14 @@ model User {
 }
 
 model Subscription {
-  id             String    @id @default(uuid())
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
   userId         String
   name           String
   cost           String
-  billingDate    DateTime
+  billingDate    String
   billingEndDate DateTime?
   url            String?
   paymentCycle   String
@@ -33,7 +36,6 @@ model Subscription {
   color          String?
   notes          String?
   notify         Boolean   @default(false)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now())
-  user           User      @relation(fields: [userId], references: [userId])
+
+  user User @relation(fields: [userId], references: [userId])
 }
