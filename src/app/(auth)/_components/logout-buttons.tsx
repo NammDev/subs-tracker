@@ -2,15 +2,20 @@
 
 import { useRouter } from 'next/navigation'
 import { SignOutButton } from '@clerk/nextjs'
-
+import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { useMounted } from '@/hooks/use-mounted'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function LogOutButtons() {
   const router = useRouter()
-  const mounted = useMounted()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+
+    return () => setMounted(false)
+  }, [])
 
   return (
     <div className='flex w-full flex-col-reverse items-center gap-2 sm:flex-row'>

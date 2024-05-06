@@ -20,12 +20,6 @@ export default function Profile({ user }: { user: User | null }) {
 
   const initials = `${user?.firstName?.charAt(0) ?? ''} ${user?.lastName?.charAt(0) ?? ''}`
 
-  const logout = async () => {
-    // const supabase = createClient()
-    // await supabase.auth.signOut()
-    // window.location.href = '/'
-  }
-
   return (
     <>
       <DropdownMenu>
@@ -59,9 +53,11 @@ export default function Profile({ user }: { user: User | null }) {
               Help
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={logout}>
-            <LogoutIcon className='h-4 w-4 mr-2' />
-            Logout
+          <DropdownMenuItem>
+            <Link href='/signout'>
+              <LogoutIcon className='h-4 w-4 mr-2' />
+              Logout
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
