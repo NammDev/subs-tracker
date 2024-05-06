@@ -1,13 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-
 import Link from 'next/link'
-
-import { GoogleIcon, Icon } from '@/components/icons'
 import { type OAuthStrategy } from '@clerk/types'
-
-import Loader from '@/components/loader'
+import { Icon } from '@/components/icons'
 import {
   Dialog,
   DialogContent,
@@ -16,31 +12,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { urls } from '@/config/urls'
-import { cn } from '@/lib/utils'
 import { User } from '@prisma/client'
 import { useSignIn } from '@clerk/nextjs'
-
-type ButtonProps = {
-  loading: boolean
-  onClick: () => void
-}
-
-const Button = ({ loading, onClick }: ButtonProps) => {
-  return (
-    <button
-      className={cn(
-        `items-center gap-2 mt-4 max-w-sm justify-center text-sm transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40 hover:bg-primary/90 active:scale-[0.98] rounded-xl bg-primary px-6 py-4 text-secondary font-medium flex space-x-2 h-[42px] w-full`,
-        {
-          'bg-primary/80 cursor-default': loading,
-        }
-      )}
-      onClick={onClick}
-    >
-      {loading ? <Loader className='text-white dark:text-black' /> : <GoogleIcon />}
-      Continue with Google
-    </button>
-  )
-}
+import { ButtonSignup } from './button-signup'
 
 type SignupModalProps = {
   open: boolean
@@ -55,7 +29,6 @@ export default function SignupModal({ open, onHide, user }: SignupModalProps) {
   if (user?.email) return null
 
   async function oauthSignIn(provider: OAuthStrategy) {
-    console.log(isLoaded)
     if (!isLoaded) return null
     try {
       setLoading(true)
@@ -87,7 +60,7 @@ export default function SignupModal({ open, onHide, user }: SignupModalProps) {
             </DialogDescription>
           </DialogTitle>
         </DialogHeader>
-        <Button loading={loading} onClick={() => void oauthSignIn('oauth_google')} />
+        <ButtonSignup loading={loading} onClick={() => void oauthSignIn('oauth_google')} />
         <p className='text-muted-foreground font-medium mt-1 text-xs max-w-sm w-full leading-5 text-center'>
           By clicking continue, you acknowledge that you have read and agree to{' '}
           <Link
