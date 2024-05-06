@@ -8,12 +8,8 @@ datasource db {
 }
 
 model User {
-  userId        String         @id @default(uuid())
+  userId        String         @id
   email         String         @unique
-  fullName      String
-  avatarUrl     String
-  updatedAt     DateTime       @default(now())
-  createdAt     DateTime       @default(now())
   filterBy      String         @default("monthly")
   planStatus    String         @default("free")
   currencyCode  String         @default("INR")

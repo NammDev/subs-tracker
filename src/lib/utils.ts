@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { User } from '@clerk/nextjs/server'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -44,4 +45,11 @@ export const isValidUrl = (url: string) => {
 export const verifyCronAuthorization = async (request: NextRequest) => {
   const authHeader = request.headers.get('authorization')
   return authHeader === `Bearer ${process.env.CRON_SECRET}`
+}
+
+export function getUserEmail(user: User | null) {
+  const email =
+    user?.emailAddresses?.find((e) => e.id === user.primaryEmailAddressId)?.emailAddress ?? ''
+
+  return email
 }

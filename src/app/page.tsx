@@ -6,8 +6,6 @@ import Card from '@/components/card'
 export default async function Page() {
   const [user, subscriptions] = await Promise.all([await getCachedUser(), await getSubscriptions()])
 
-  console.log(user, subscriptions)
-
   return (
     <main className='flex flex-col mt-10'>
       <Card user={user} subscriptions={user?.email ? subscriptions : demoData} />

@@ -5,6 +5,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 import { GoogleIcon, Icon } from '@/components/icons'
+import { type OAuthStrategy } from '@clerk/types'
+
 import Loader from '@/components/loader'
 import {
   Dialog,
@@ -16,6 +18,7 @@ import {
 import { urls } from '@/config/urls'
 import { cn } from '@/lib/utils'
 import { User } from '@prisma/client'
+import { useSignIn } from '@clerk/nextjs'
 
 type ButtonProps = {
   loading: boolean
@@ -47,21 +50,25 @@ type SignupModalProps = {
 
 export default function SignupModal({ open, onHide, user }: SignupModalProps) {
   const [loading, setLoading] = useState(false)
+  const { isLoaded, signIn } = useSignIn()
 
   if (user?.email) return null
 
-  const onClickHandler = async () => {
-    setLoading(true)
-    // const supabase = createClient()
-    // await supabase.auth.signInWithOAuth({
-    //   provider: 'google',
-    //   options: { redirectTo: urls.authCallback },
-    // })
-
-    setTimeout(() => {
+  async function oauthSignIn(provider: OAuthStrategy) {
+    console.log(isLoaded)
+    if (!isLoaded) return null
+    try {
+      setLoading(true)
+      await signIn.authenticateWithRedirect({
+        strategy: provider,
+        redirectUrl: '/sso-callback',
+        redirectUrlComplete: '/',
+      })
+    } catch (err) {
+      console.log(err)
+    } finally {
       setLoading(false)
-      onHide?.(false)
-    }, 2000)
+    }
   }
 
   return (
@@ -80,7 +87,7 @@ export default function SignupModal({ open, onHide, user }: SignupModalProps) {
             </DialogDescription>
           </DialogTitle>
         </DialogHeader>
-        <Button loading={loading} onClick={onClickHandler} />
+        <Button loading={loading} onClick={() => void oauthSignIn('oauth_google')} />
         <p className='text-muted-foreground font-medium mt-1 text-xs max-w-sm w-full leading-5 text-center'>
           By clicking continue, you acknowledge that you have read and agree to{' '}
           <Link
