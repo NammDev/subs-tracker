@@ -73,8 +73,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const userData = await getCachedUser()
-
   return (
     <ClerkProvider>
       <html lang='en' suppressHydrationWarning>
@@ -86,11 +84,7 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className='px-4 py-2 flex flex-col w-full md:max-w-lg m-auto'>
-              <Header user={userData} />
-              {children}
-            </div>
-            <BottomBar user={userData} />
+            {children}
             <Toaster />
           </ThemeProvider>
 

@@ -7,7 +7,7 @@ export default clerkMiddleware((auth, req) => {
     const url = new URL(req.nextUrl.origin)
 
     auth().protect({
-      unauthenticatedUrl: `${url.origin}/sign-in`,
+      unauthenticatedUrl: `${url.origin}/signin`,
       unauthorizedUrl: `${url.origin}/dashboard`,
     })
   }
