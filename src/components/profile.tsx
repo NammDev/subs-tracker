@@ -53,7 +53,7 @@ export default function Profile({ user }: { user: User | null }) {
               Help
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link href='/signout'>
               <LogoutIcon className='h-4 w-4 mr-2' />
               Logout

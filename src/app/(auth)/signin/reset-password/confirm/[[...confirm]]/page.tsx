@@ -2,7 +2,7 @@ import { type Metadata } from 'next'
 // import { env } from '@/env.js'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { ResetPasswordConfirmForm } from '@/app/(auth)/_components/reset-password-confirm-form'
+// import { ResetPasswordConfirmForm } from '@/app/(auth)/_components/reset-password-confirm-form'
 import { Shell } from '@/components/shell'
 
 export const metadata: Metadata = {
@@ -21,9 +21,7 @@ export default function ResetPasswordConfirmPage() {
             Enter your email address and we will send you a verification code
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <ResetPasswordConfirmForm />
-        </CardContent>
+        <CardContent>{/* <ResetPasswordConfirmForm /> */}</CardContent>
       </Card>
     </Shell>
   )

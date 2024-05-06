@@ -2,7 +2,7 @@ import { type Metadata } from 'next'
 // import { env } from '@/env.js'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { VerifyEmailForm } from '@/app/(auth)/_components/verify-email-form'
+// import { VerifyEmailForm } from '@/app/(auth)/_components/verify-email-form'
 import { Shell } from '@/components/shell'
 
 export const metadata: Metadata = {
@@ -21,9 +21,7 @@ export default function VerifyEmailPage() {
             Verify your email address to complete your account creation
           </CardDescription>
         </CardHeader>
-        <CardContent className='grid gap-4'>
-          <VerifyEmailForm />
-        </CardContent>
+        <CardContent className='grid gap-4'>{/* <VerifyEmailForm /> */}</CardContent>
       </Card>
     </Shell>
   )

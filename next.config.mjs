@@ -8,6 +8,9 @@ const nextConfig = {
     deviceSizes: [640, 750],
     minimumCacheTTL: 60,
   },
+  // Already doing linting and typechecking as separate tasks in CI
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
 }
 
 export default nextConfig
