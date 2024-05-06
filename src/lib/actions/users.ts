@@ -39,21 +39,16 @@ export async function getUser(userId: string) {
   })
 }
 
-export async function createUser(userId: string) {
-  const userSetting = await getUser(userId)
-  if (!userSetting) {
-    const userAuth = await getCachedAuthUser()
-    return db.user.create({
-      data: {
-        userId: userId,
-        currencyCode: 'USD',
-        email: getUserEmail(userAuth),
-        imageUrl: userAuth?.imageUrl,
-        firstName: userAuth?.firstName,
-        lastName: userAuth?.lastName,
-      },
-    })
-  } else {
-    return userSetting
-  }
+export async function createUser() {
+  const userAuth = await getCachedAuthUser()
+  return db.user.create({
+    data: {
+      userId: userAuth?.id as string,
+      currencyCode: 'USD',
+      email: getUserEmail(userAuth),
+      imageUrl: userAuth?.imageUrl,
+      firstName: userAuth?.firstName,
+      lastName: userAuth?.lastName,
+    },
+  })
 }
