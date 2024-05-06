@@ -1,10 +1,12 @@
-import { type HandleOAuthCallbackParams } from '@clerk/types'
-import { SSOCallback } from './sso-callback'
+import { AuthenticateWithRedirectCallback } from '@clerk/nextjs'
+import { Loader } from 'lucide-react'
 
-export interface SSOCallbackPageProps {
-  searchParams: HandleOAuthCallbackParams
-}
+export default function SSOCallbackPage() {
+  return (
+    <div className='grid items-center gap-8 pb-8 pt-6 lg:py-6 max-w-lg place-items-center'>
+      <Loader className='size-16 animate-spin' aria-hidden='true' />
 
-export default function SSOCallbackPage({ searchParams }: SSOCallbackPageProps) {
-  return <SSOCallback searchParams={searchParams} />
+      <AuthenticateWithRedirectCallback />
+    </div>
+  )
 }
