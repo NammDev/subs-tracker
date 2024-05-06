@@ -48,6 +48,9 @@ export async function createUser(userId: string) {
         userId: userId,
         currencyCode: 'USD',
         email: getUserEmail(userAuth),
+        imageUrl: userAuth?.imageUrl,
+        firstName: userAuth?.firstName,
+        lastName: userAuth?.lastName,
       },
     })
   } else {

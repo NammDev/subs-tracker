@@ -3,8 +3,8 @@ import { cn } from '@/lib/utils'
 import { Icon } from './icons'
 import Profile from './profile'
 import SignupButton from './signup-button'
-import { User } from '@prisma/client'
 import FeedbackModal from './modal/feedback'
+import { User } from '@prisma/client'
 
 export default async function Header({ user }: { user: User | null }) {
   return (

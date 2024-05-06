@@ -13,9 +13,12 @@ import { socialUrls } from '@/config/urls'
 
 import { GithubIcon, HelpIcon, LogoutIcon } from './icons'
 import { User } from '@prisma/client'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 export default function Profile({ user }: { user: User | null }) {
   if (!user?.email) return null
+
+  const initials = `${user?.firstName?.charAt(0) ?? ''} ${user?.lastName?.charAt(0) ?? ''}`
 
   const logout = async () => {
     // const supabase = createClient()
@@ -27,15 +30,21 @@ export default function Profile({ user }: { user: User | null }) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className='rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
-          <Image
-            priority
-            className='h-9 w-9 rounded-full border border-input'
-            src={user?.avatarUrl ?? `/images/avatar.svg`}
-            alt={user?.fullName ?? 'Demo account'}
-            width={36}
-            height={36}
-            style={{ maxWidth: '100%', objectFit: 'cover' }}
-          />
+          {user?.imageUrl ? (
+            <Image
+              priority
+              className='h-9 w-9 rounded-full border border-input'
+              src={user?.imageUrl ?? `/images/avatar.svg`}
+              alt={user?.firstName ?? 'Demo account'}
+              width={36}
+              height={36}
+              style={{ maxWidth: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            <Avatar className='size-8'>
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+          )}
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuItem>
