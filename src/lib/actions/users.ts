@@ -1,10 +1,11 @@
 'use server'
 
 import { cache } from 'react'
-import { unstable_noStore as noStore } from 'next/cache'
+import { unstable_noStore as noStore, revalidateTag } from 'next/cache'
 import { currentUser } from '@clerk/nextjs/server'
 import { db } from '../db'
 import { getUserEmail } from '../utils'
+import { User } from '@prisma/client'
 
 export const getCachedUser = cache(async () => {
   noStore()
@@ -51,4 +52,22 @@ export async function createUser() {
       lastName: userAuth?.lastName,
     },
   })
+}
+
+export const updateUserCurrency = async (currencyCode: User['currencyCode']) => {
+  try {
+    const userData = await getCachedUser()
+    const newUser = await db.user.update({
+      where: {
+        userId: userData?.userId as string,
+      },
+      data: {
+        currencyCode,
+      },
+    })
+
+    return newUser
+  } catch (error) {
+    throw new Error((error as Error).toString())
+  }
 }

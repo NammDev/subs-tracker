@@ -13,10 +13,10 @@ export default async function Page() {
       <div className='border-border flex flex-col'>
         <h2 className='font-semibold mb-2'>General</h2>
         <div className='flex gap-4 flex-col'>
-          {/* <AccountCard user={user} />
+          <AccountCard user={user} />
           <Appearance />
           <CurrencyCard user={user} />
-          <ExportCard user={user} /> */}
+          {/* <ExportCard user={user} /> */}
         </div>
       </div>
       <div className='border-border mt-5 pb-24 flex flex-col'>
