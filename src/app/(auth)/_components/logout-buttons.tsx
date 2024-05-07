@@ -13,7 +13,6 @@ export function LogOutButtons() {
 
   React.useEffect(() => {
     setMounted(true)
-
     return () => setMounted(false)
   }, [])
 
