@@ -53,30 +53,26 @@ export default function Add({ user, showSignup }: AddProps) {
     }
   }
 
-  const AddButton = () => (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button
-            onClick={onClick}
-            className='rounded-full transition-colors p-2.5 md:p-2 bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring components/theme-toggle.tsx'
-          >
-            <AddIcon className='w-6 h-6 text-white' />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent side='top' className='mb-2 px-2'>
-          <kbd className='text-xs mr-1 border bg-accent uppercase font-semibold rounded-[6px] p-0.5 px-1.5'>
-            A
-          </kbd>{' '}
-          Add
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  )
-
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <AddButton />
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              onClick={onClick}
+              className='rounded-full transition-colors p-2.5 md:p-2 bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring components/theme-toggle.tsx'
+            >
+              <AddIcon className='w-6 h-6 text-white' />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side='top' className='mb-2 px-2'>
+            <kbd className='text-xs mr-1 border bg-accent uppercase font-semibold rounded-[6px] p-0.5 px-1.5'>
+              A
+            </kbd>{' '}
+            Add
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DrawerContent className='px-4 pb-6'>
         <Form loading={loading} onSubmit={onSubmit} user={user} />
       </DrawerContent>

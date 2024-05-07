@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-// import { deleteSubscription, updateSubscription } from 'app/actions/subscriptions'
+// import { , updateSubscription } from 'app/actions/subscriptions'
 import {
   ActiveIcon,
   BellOffIcon,
@@ -24,6 +24,7 @@ import { cn, contrastColor, getFirstLetters, isValidUrl, randomColor } from '@/l
 import { toast } from 'sonner'
 import { Subscription, User } from '@prisma/client'
 import { SubscriptionsUpdateSchemaType } from '@/lib/schemas/subscription'
+import { deleteSubscription } from '@/lib/actions/subscriptions'
 
 type CardDetailsProps = {
   subscription: Subscription
@@ -103,7 +104,7 @@ export default function CardDetails(props: CardDetailsProps) {
   const onDelete = async (subs: Subscription) => {
     try {
       setDeleteLoading(true)
-      // await deleteSubscription(subs.id)
+      await deleteSubscription(subs.id)
       toast.success(messages.subscriptions.delete.success)
     } catch (error: any) {
       toast.error(error.toString() || messages.subscriptions.delete.error)
