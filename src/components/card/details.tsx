@@ -56,6 +56,9 @@ export default function CardDetails(props: CardDetailsProps) {
       await updateSubscription({
         ...subs,
         renewalDate: calculateRenewalDate(subs.billingDate, subs.paymentCycle),
+        billingEndDate: subs.billingEndDate
+          ? subs.billingEndDate.toISOString().split('T')[0]
+          : null,
       })
       toast.success(messages.subscriptions.update.success)
     } catch (error: any) {
@@ -89,7 +92,8 @@ export default function CardDetails(props: CardDetailsProps) {
       if (!subscription.active) {
         payload.billingEndDate = null
       } else {
-        payload.billingEndDate = new Date().toISOString().split('T')[0]
+        let date = new Date()
+        payload.billingEndDate = date.toISOString()
       }
 
       await updateSubscription(payload)

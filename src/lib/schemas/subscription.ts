@@ -22,6 +22,7 @@ export const SubscriptionsCreateSchema = SubscriptionsInsertSchema.extend({
 export type SubscriptionsCreateSchemaType = z.infer<typeof SubscriptionsCreateSchema>
 
 export const SubscriptionsUpdateSchema = z.object({
+  id: z.string().optional(),
   active: z.boolean().optional(),
   billingDate: z.string().optional(),
   billingEndDate: z.string().nullable().optional(),

@@ -70,15 +70,12 @@ export const deleteSubscription = async (id: string) => {
   revalidateTag(`subscriptions`)
 }
 
-export const updateSubscription = async (
-  subId: string,
-  subscription: SubscriptionsUpdateSchemaType
-) => {
+export const updateSubscription = async (subscription: SubscriptionsUpdateSchemaType) => {
   noStore()
   try {
     const newSubscription = await db.subscription.update({
       where: {
-        id: subId,
+        id: subscription.id,
       },
       data: {
         ...subscription,
