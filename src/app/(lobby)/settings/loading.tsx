@@ -1,4 +1,4 @@
-import SettingsCard from 'components/settings/settings-card'
+import SettingsCard from '@/components/settings/settings-card'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default async function Loader() {
