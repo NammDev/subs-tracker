@@ -144,7 +144,9 @@ export default function CardInfo(props: InfoProps) {
           </p>
         </div>
       </motion.button>
-      {open ? <CardDetails open={open} setOpen={setOpen} subscription={subscription} /> : null}
+      {open ? (
+        <CardDetails user={user} open={open} setOpen={setOpen} subscription={subscription} />
+      ) : null}
     </>
   )
 }

@@ -1,15 +1,11 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
-import Script from 'next/script'
-import BottomBar from '@/components/bottom-bar'
 import NextTopLoader from 'nextjs-toploader'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from '@/components/layouts/theme-providers'
 import { ClerkProvider } from '@clerk/nextjs'
 
 import './globals.css'
-import { getCachedUser } from '@/lib/actions/users'
-import Header from '@/components/header'
 
 const inter = Inter({ subsets: ['latin'] })
 

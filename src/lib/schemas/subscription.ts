@@ -23,20 +23,17 @@ export type SubscriptionsCreateSchemaType = z.infer<typeof SubscriptionsCreateSc
 
 export const SubscriptionsUpdateSchema = z.object({
   active: z.boolean().optional(),
-  billing_date: z.string(),
-  billing_end_date: z.string().nullable().optional(),
+  billingDate: z.string().optional(),
+  billingEndDate: z.string().nullable().optional(),
   color: z.string().nullable().optional(),
-  cost: z.string(),
-  created_at: z.string().nullable().optional(),
-  id: z.string().optional(),
-  name: z.string(),
+  cost: z.string().optional(),
+  name: z.string().optional(),
   notes: z.string().nullable().optional(),
   notify: z.boolean().optional(),
-  payment_cycle: z.string(),
-  renewal_date: z.string().nullable().optional(),
-  updated_at: z.string().nullable().optional(),
+  paymentCycle: z.string().optional(),
   url: z.string().nullable().optional(),
-  user_id: z.string(),
+  renewalDate: z.string().optional(),
+  userId: z.string().optional(),
 })
 
 export type SubscriptionsUpdateSchemaType = z.infer<typeof SubscriptionsUpdateSchema>

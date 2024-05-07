@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-// import { , updateSubscription } from 'app/actions/subscriptions'
 import {
   ActiveIcon,
   BellOffIcon,
@@ -24,16 +23,17 @@ import { cn, contrastColor, getFirstLetters, isValidUrl, randomColor } from '@/l
 import { toast } from 'sonner'
 import { Subscription, User } from '@prisma/client'
 import { SubscriptionsUpdateSchemaType } from '@/lib/schemas/subscription'
-import { deleteSubscription } from '@/lib/actions/subscriptions'
+import { deleteSubscription, updateSubscription } from '@/lib/actions/subscriptions'
 
 type CardDetailsProps = {
   subscription: Subscription
   open: boolean
   setOpen: (open: boolean) => void
+  user: User | null
 }
 
 export default function CardDetails(props: CardDetailsProps) {
-  const { open, setOpen, subscription } = props
+  const { open, setOpen, subscription, user } = props
   const [loading, setLoading] = useState(false)
   const [notifyLoading, setNotifyLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
@@ -53,10 +53,10 @@ export default function CardDetails(props: CardDetailsProps) {
   const onSubmit = async (subs: Subscription) => {
     try {
       setLoading(true)
-      // await updateSubscription({
-      //   ...subs,
-      //   renewal_date: calculateRenewalDate(subs.billing_date, subs.payment_cycle),
-      // })
+      await updateSubscription({
+        ...subs,
+        renewalDate: calculateRenewalDate(subs.billingDate, subs.paymentCycle),
+      })
       toast.success(messages.subscriptions.update.success)
     } catch (error: any) {
       toast.error(error.toString() || messages.subscriptions.update.error)
@@ -69,7 +69,7 @@ export default function CardDetails(props: CardDetailsProps) {
   const notifyMe = async () => {
     try {
       setNotifyLoading(true)
-      // await updateSubscription({ notify: !subscription.notify, id: subscription.id })
+      await updateSubscription({ notify: !subscription.notify, id: subscription.id })
       toast.success(messages.subscriptions.reminderSuccess(subscription.notify, subscription.name))
     } catch (error: any) {
       toast.error(error.toString() || messages.subscriptions.reminderError(subscription.notify))
@@ -87,12 +87,12 @@ export default function CardDetails(props: CardDetailsProps) {
         notify: false,
       } as SubscriptionsUpdateSchemaType
       if (!subscription.active) {
-        payload.billing_end_date = null
+        payload.billingEndDate = null
       } else {
-        payload.billing_end_date = new Date().toISOString().split('T')[0]
+        payload.billingEndDate = new Date().toISOString().split('T')[0]
       }
 
-      // await updateSubscription(payload)
+      await updateSubscription(payload)
       toast.success(messages.subscriptions.active(subscription.notify, subscription.name))
     } catch (error: any) {
       toast.error(error.toString() || messages.subscriptions.activeError(subscription.notify))
@@ -215,7 +215,7 @@ export default function CardDetails(props: CardDetailsProps) {
             </Button>
           </div>
           <div className='flex flex-col w-full'>
-            <Form subscription={subscription} loading={loading} onSubmit={onSubmit} />
+            <Form user={user} subscription={subscription} loading={loading} onSubmit={onSubmit} />
           </div>
         </div>
       </DrawerContent>
@@ -227,9 +227,10 @@ type FormProps = {
   subscription: Subscription
   loading: boolean
   onSubmit: (subscription: any) => void
+  user: User | null
 }
 
-function Form({ subscription, onSubmit, loading }: FormProps) {
+function Form({ subscription, onSubmit, loading, user }: FormProps) {
   const [state, setState] = useState(subscription)
 
   const randomHexColor = randomColor()
@@ -316,9 +317,7 @@ function Form({ subscription, onSubmit, loading }: FormProps) {
         <div className='mr-3'>
           <label className='text-sm inline-flex items-center font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
             Cost{' '}
-            <span className='ml-2 relative top-[1px]'>
-              {/* {getCurrencySymbol(user?.currencyCode)} */}
-            </span>
+            <span className='ml-2 relative top-[1px]'>{getCurrencySymbol(user?.currencyCode)}</span>
           </label>
           <Input
             value={state.cost}
@@ -349,9 +348,9 @@ function Form({ subscription, onSubmit, loading }: FormProps) {
             type='date'
             placeholder='DD-MM-YYYY'
             className='mt-2 h-11 flex w-full appearance-none read-only:bg-accent/30'
-            // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            //   setState({ ...state, billingDate: e.target.value })
-            // }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setState({ ...state, billingDate: e.target.value })
+            }
           />
         </div>
         <div className='mr-3'>
