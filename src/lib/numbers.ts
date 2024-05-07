@@ -1,4 +1,4 @@
-export const defaultCurrency = 'INR'
+export const defaultCurrency = 'VND'
 const defaultLocale = 'en'
 const currencyStyle = {
   style: 'currency',

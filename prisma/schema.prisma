@@ -15,7 +15,7 @@ model User {
   lastName      String?
   filterBy      String         @default("monthly")
   planStatus    String         @default("free")
-  currencyCode  String         @default("INR")
+  currencyCode  String         @default("VND")
   subscriptions Subscription[]
 }
 

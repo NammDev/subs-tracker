@@ -1,10 +1,9 @@
 'use client'
 
-import { CurrencyComboBox } from 'components/currency-combo'
-
 import SettingsCard from './settings-card'
 import { User } from '@prisma/client'
 import { updateUserCurrency } from '@/lib/actions/users'
+import { CurrencyComboBox } from './currency-combo'
 
 export default function CurrencyCard({ user }: { user: User | null }) {
   return (
