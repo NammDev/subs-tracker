@@ -10,6 +10,7 @@ import SettingsCard from './settings-card'
 import { useClerk, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import DeleteAccountModal from '../modal/delete-account'
+import { revalidatePath } from 'next/cache'
 
 export default function DeleteCard() {
   const [open, setOpen] = useState(false)
@@ -21,15 +22,16 @@ export default function DeleteCard() {
   const onSubmit = async (email: string) => {
     try {
       setLoading(true)
-      const response = await fetch('/api/account/delete', {
-        method: 'POST',
-        body: JSON.stringify({ email }),
-      })
-      if (!response.ok) {
-        throw new Error(messages.account.delete.error)
-      }
+      // const response = await fetch('/api/account/delete', {
+      //   method: 'POST',
+      //   body: JSON.stringify({ email }),
+      // })
+      // if (!response.ok) {
+      //   throw new Error(messages.account.delete.error)
+      // }
       signOut(() => router.push('/'))
       window.location.href = '/'
+      revalidatePath('/')
     } catch (error) {
       toast.error(error?.toString() || messages.account.delete.error)
     } finally {

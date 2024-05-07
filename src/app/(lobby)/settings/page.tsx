@@ -16,7 +16,7 @@ export default async function Page() {
           <AccountCard user={userData} />
           <Appearance />
           <CurrencyCard user={userData} />
-          {/* <ExportCard user={userData} /> */}
+          <ExportCard />
         </div>
       </div>
       <div className='border-border mt-5 pb-24 flex flex-col'>
