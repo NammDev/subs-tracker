@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 import SettingsCard from './settings-card'
 import { useClerk, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
+import DeleteAccountModal from '../modal/delete-account'
 
 export default function DeleteCard() {
   const [open, setOpen] = useState(false)
@@ -50,15 +51,15 @@ export default function DeleteCard() {
           Delete
         </Button>
       </div>
-      {/* {open ? (
+      {open ? (
         <DeleteAccountModal
           loading={loading}
           open={true}
           setOpen={setOpen}
-          emailId={user?.user_metadata?.email ?? undefined}
+          emailId={user?.emailAddresses[0].emailAddress ?? undefined}
           onSubmit={onSubmit}
         />
-      ) : null} */}
+      ) : null}
     </SettingsCard>
   )
 }

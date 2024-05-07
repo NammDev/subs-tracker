@@ -1,9 +1,9 @@
 import { SyntheticEvent, useState } from 'react'
 
-import Loader from 'components/loader'
-import { Button } from 'components/ui/button'
-import { Dialog, DialogContent } from 'components/ui/dialog'
-import { Input } from 'components/ui/input'
+import Loader from '@/components/loader'
+import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 
 type DeleteAccountModalProps = {
   open: boolean
